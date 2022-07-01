@@ -1,0 +1,103 @@
+@model NhanVienCreateModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+<h4>Movie</h4>
+<hr/>
+<div class="row">
+    <div class="col-md-4">
+        <form method="POST">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.NV.nhanvienId" class="control-label"></label>
+                <input asp-for="@Model.NV.nhanvienId" class="form-control" readonly/>
+                <span asp-validation-for="@Model.NV.nhanvienId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.NV.user" class="control-label"></label>
+                <input asp-for="@Model.NV.user" class="form-control" readonly/>
+                <span asp-validation-for="@Model.NV.user" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.NV.password" class="control-label"></label>
+                <input asp-for="@Model.NV.password" class="form-control"/>
+                <span asp-validation-for="@Model.NV.password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.NV.repass" class="control-label"></label>
+                <input asp-for="@Model.NV.repass" class="form-control"/>
+                <span asp-validation-for="@Model.NV.repass" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.NV.full_name" class="control-label"></label>
+                <input asp-for="@Model.NV.full_name" class="form-control"/>
+                <span asp-validation-for="@Model.NV.full_name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.NV.phone" class="control-label"></label>
+                <input asp-for="@Model.NV.phone" class="form-control"/>
+                <span asp-validation-for="@Model.NV.phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.NV.mail" class="control-label"></label>
+                <input asp-for="@Model.NV.mail" class="form-control"/>
+                <span asp-validation-for="@Model.NV.mail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.NV.address" class="control-label"></label>
+                <input asp-for="@Model.NV.address" class="form-control"/>
+                <span asp-validation-for="@Model.NV.address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.NV.gender" class="control-label"></label>
+
+                <div class="form-check-inline">
+                    <label class="form-check-label">
+                        @Html.RadioButtonFor(model => model.NV.gender, "Nam", new {style = "width:63%;"}) Nam
+                    </label>
+                </div>
+                
+                <div class="form-check-inline">
+                    <label class="form-check-label">
+                        @Html.RadioButtonFor(model => model.NV.gender, "Nữ") Nữ
+                    </label>
+                </div>
+
+                @* <input asp-for="@Model.NV.gender" class="form-control"/> *@
+                <span asp-validation-for="@Model.NV.gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.NV.dateborn" class="control-label"></label>
+                <input asp-for="@Model.NV.dateborn" type="date" class="form-control"/>
+                <span asp-validation-for="@Model.NV.dateborn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.NV.QuyenId" class="control-label"></label>
+                <select asp-for="@Model.NV.QuyenId">
+                    @{
+                        foreach(var q in Model.Quyens) {
+                            <option value="@q.QuyenId">@q.name</option>
+                        }
+                    }
+                </select>
+                @* <input asp-for="@Model.NV.QuyenId" class="form-control"/> *@
+                <span asp-validation-for="@Model.NV.QuyenId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

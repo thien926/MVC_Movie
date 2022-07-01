@@ -1,0 +1,170 @@
+@model NhanVienViewModel
+
+@{
+    ViewData["Title"] = "Movie List";
+    var idSort = (Model.SortString == "id") ? "id_desc" : "id";
+    var nameSort = (Model.SortString == "name") ? "name_desc" : "name";
+    var userSort = (Model.SortString == "user_desc") ? "user" : "user_desc";
+    var phoneSort = (Model.SortString == "phone_desc") ? "phone" : "phone_desc";
+    var genderSort = (Model.SortString == "gender_desc") ? "gender" : "gender_desc";
+    var status_activeSort = (Model.SortString == "status_active_desc") ? "status_active" : "status_active_desc";
+    var addressSort = (Model.SortString == "address_desc") ? "address" : "address_desc";
+    var datebornSort = (Model.SortString == "dateborn_desc") ? "dateborn" : "dateborn_desc";
+    var QuyenIdSort = (Model.SortString == "QuyenId_desc") ? "QuyenId" : "QuyenId_desc";
+}
+
+<h1>Index</h1>
+
+<form method="GET">
+    <p>
+        @* <select asp-for="Quyens" asp-items="Model.TypeQuyen">
+            <option value="">All</option>
+        </select> *@
+        <input type="text" asp-for="SearchString"/>
+        <input type="submit" value="Filter"/>
+    </p>
+</form>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th><a  asp-route-SortString="@idSort"
+                    asp-route-TypeQuyen="@Model.TypeQuyen"
+                    asp-route-SearchString="@Model.SearchString"
+                    asp-route-PageIndex="@Model.NhanViens.PageIndex">
+                @Html.DisplayNameFor(model => model.NhanViens[0].nhanvienId)</a></th>
+            <th><a  asp-route-SortString="@nameSort"
+                    asp-route-TypeQuyen="@Model.TypeQuyen"
+                    asp-route-SearchString="@Model.SearchString"
+                    asp-route-PageIndex="@Model.NhanViens.PageIndex">
+                @Html.DisplayNameFor(model => model.NhanViens[0].full_name)</a></th>
+            <th><a  asp-route-SortString="@userSort"
+                    asp-route-TypeQuyen="@Model.TypeQuyen"
+                    asp-route-SearchString="@Model.SearchString"
+                    asp-route-PageIndex="@Model.NhanViens.PageIndex">
+                @Html.DisplayNameFor(model => model.NhanViens[0].user)</a></th>
+            <th><a  asp-route-SortString="@phoneSort"
+                    asp-route-TypeQuyen="@Model.TypeQuyen"
+                    asp-route-SearchString="@Model.SearchString"
+                    asp-route-PageIndex="@Model.NhanViens.PageIndex">
+                @Html.DisplayNameFor(model => model.NhanViens[0].phone)</a></th>
+            <th><a  asp-route-SortString="@genderSort"
+                    asp-route-TypeQuyen="@Model.TypeQuyen"
+                    asp-route-SearchString="@Model.SearchString"
+                    asp-route-PageIndex="@Model.NhanViens.PageIndex">
+                @Html.DisplayNameFor(model => model.NhanViens[0].gender)</a></th>
+            <th><a  asp-route-SortString="@addressSort"
+                asp-route-TypeQuyen="@Model.TypeQuyen"
+                asp-route-SearchString="@Model.SearchString"
+                asp-route-PageIndex="@Model.NhanViens.PageIndex">
+                @Html.DisplayNameFor(model => model.NhanViens[0].address)</a></th>
+            <th><a  asp-route-SortString="@datebornSort"
+                    asp-route-TypeQuyen="@Model.TypeQuyen"
+                    asp-route-SearchString="@Model.SearchString"
+                    asp-route-PageIndex="@Model.NhanViens.PageIndex">
+                @Html.DisplayNameFor(model => model.NhanViens[0].dateborn)</a></th>
+            <th><a  asp-route-SortString="@QuyenIdSort"
+                    asp-route-TypeQuyen="@Model.TypeQuyen"
+                    asp-route-SearchString="@Model.SearchString"
+                    asp-route-PageIndex="@Model.NhanViens.PageIndex">
+                @Html.DisplayNameFor(model => model.NhanViens[0].QuyenId)</a></th>
+            <th><a  asp-route-SortString="@status_activeSort"
+                    asp-route-TypeQuyen="@Model.TypeQuyen"
+                    asp-route-SearchString="@Model.SearchString"
+                    asp-route-PageIndex="@Model.NhanViens.PageIndex">
+                @Html.DisplayNameFor(model => model.NhanViens[0].status_active)</a></th>
+            <th><a style="color: #007bff;">Hành động</a></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var movie in Model.NhanViens)
+    {
+        <tr>
+            <td>@movie.nhanvienId</td>
+            <td>@Html.DisplayFor(item => movie.full_name)</td>
+            <td>@Html.DisplayFor(item => movie.user)</td>
+            <td>@movie.phone</td>
+            <td>@movie.gender</td>
+            <td>@movie.address</td>
+            <td>@Html.DisplayFor(item => movie.dateborn)</td>
+            <td>@movie.QuyenId</td>
+            <td>@Html.DisplayFor(item => movie.status_active)</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@movie.nhanvienId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@movie.nhanvienId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@movie.nhanvienId">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@{
+    var min = Model.NhanViens.PageIndex - 3;
+    var max = Model.NhanViens.PageIndex + 3;
+
+    if(min < 1) {
+        max = max + 1 - min;
+        min = 1;
+    }
+
+    if(max > Model.NhanViens.TotalPages) {
+        min = min - (max - Model.NhanViens.TotalPages);
+        max = Model.NhanViens.TotalPages;
+    }
+
+    if(min < 1) {
+        min = 1;
+    }
+
+    if(Model.NhanViens.HasPreviousPage) {
+        <a  class="btn btn-default"
+        asp-route-SortString="@Model.SortString"
+        asp-route-TypeQuyen="@Model.TypeQuyen"
+        asp-route-SearchString="@Model.SearchString"
+        asp-route-pageIndex="1">&lt;&lt;</a>
+        <a  class="btn btn-default"
+        asp-route-SortString="@Model.SortString"
+        asp-route-TypeQuyen="@Model.TypeQuyen"
+        asp-route-SearchString="@Model.SearchString"
+        asp-route-pageIndex="@(Model.NhanViens.PageIndex -1)">&lt;</a>
+    }
+
+    if(min != max) {
+        for(var i = min; i <= max; ++i) {
+            if(i == Model.NhanViens.PageIndex) {
+                <a  class="btn btn-default bg-primary text-white"
+                asp-route-SortString="@Model.SortString"
+                asp-route-TypeQuyen="@Model.TypeQuyen"
+                asp-route-SearchString="@Model.SearchString"
+                asp-route-pageIndex="@i">@i</a>
+            }
+            else {
+                <a  class="btn btn-default "
+                asp-route-SortString="@Model.SortString"
+                asp-route-TypeQuyen="@Model.TypeQuyen"
+                asp-route-SearchString="@Model.SearchString"
+                asp-route-pageIndex="@i">@i</a>
+            }
+            
+        }
+    }
+
+    if(Model.NhanViens.HasNextPage) {
+        <a  class="btn btn-default"
+        asp-route-SortString="@Model.SortString"
+        asp-route-TypeQuyen="@Model.TypeQuyen"
+        asp-route-SearchString="@Model.SearchString"
+        asp-route-pageIndex="@(Model.NhanViens.PageIndex +1)">&gt;</a>
+        <a  class="btn btn-default"
+        asp-route-SortString="@Model.SortString"
+        asp-route-TypeQuyen="@Model.TypeQuyen"
+        asp-route-SearchString="@Model.SearchString"
+        asp-route-pageIndex="@Model.NhanViens.TotalPages">&gt;&gt;</a>
+    }
+}
+

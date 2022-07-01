@@ -1,0 +1,78 @@
+﻿@* @model Application.ViewDTOs.LoginDto;
+@{
+    ViewData["Title"] = "Login Admin";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>@ViewData["Title"]</title>
+    <link href="~/assets/css/style.css" rel="stylesheet" />
+    <style>
+        .field-validation-error {
+            color: red
+        }
+
+        .validation-summary-errors {
+            color: red
+        }
+    </style>
+    <script src="~/js/Validate-client/jquery-2.2.0.min.js"></script>
+    <script src="~/js/Validate-client/jquery.validate.min.js"></script>
+    <script src="~/js/Validate-client/jquery.validate.unobtrusive.min.js"></script>
+</head>
+<body>
+    <section class="container">
+        <div class="login">
+            <h1>Đăng nhập Admin</h1>
+            <form method="post" action="/Admin/Login/Index">
+                <div asp-validation-summary="ModelOnly"></div>
+                <p><input type="text" asp-for="@Model.user" placeholder="Tài khoản"></p>
+                <span asp-validation-for="@Model.user"></span>
+                <p><input type="password" asp-for="@Model.password" placeholder="Mật khẩu"></p>
+                <span asp-validation-for="@Model.password"></span>
+                <p class="submit"><input type="submit" name="commit" value="Login"></p>
+            </form>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+    function cc(){
+        // onsubmit="return(cc());"
+      var x = document.forms[0].login.value;
+      var y = document.forms[0].password.value;
+      alert(x + " " + y);
+      return false;
+    }
+    </script>
+</body>
+</html> *@
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+@model IEnumerable<Application.DTOs.QuyenDto>
+
+<div class="text-center">
+    <table>
+        @{
+            if(Model != null) {
+                foreach(var q in Model) {
+                    <tr>
+                        <td>@q.QuyenId</td>
+                        <td>@q.name</td>
+                        <td>@q.detail</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@q.QuyenId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@q.QuyenId">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@q.QuyenId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    </table>
+</div>
